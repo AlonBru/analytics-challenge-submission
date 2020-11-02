@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 
 // some useful database functions in here:
 import {
+  getRetentionCohort
 } from "./database";
 import { Event, weeklyRetentionObject } from "../../client/src/models/event";
 import { ensureAuthenticated, validateMiddleware } from "./helpers";
@@ -53,8 +54,11 @@ router.get('/week', (req: Request, res: Response) => {
 });
 
 router.get('/retention', (req: Request, res: Response) => {
-  const {dayZero} = req.query
-  res.send('/retention')
+  const {dayZero}:{dayZero:number|string} = req.query
+  const retentionCohort:weeklyRetentionObject[] = getRetentionCohort(Number(dayZero));
+  
+  // res.json([1,2,3]);
+  res.json(retentionCohort);
 });
 router.get('/:eventId',(req : Request, res : Response) => {
   res.send('/:eventId')
