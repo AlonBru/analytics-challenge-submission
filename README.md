@@ -2,39 +2,37 @@
 
 ## Introduction
 
-You will build analytics system that would present usage analytics about a website by collecting events sent to the platform.
+You will build analytics system that would present usage analytics about a website by collecting events sent to the platform (similar to Mixpanel.com).
 
 ## Getting Started
 
-clone the repo this repo and build your project on top of it.  
-
-- setup server  
+Fork this repo and build your project on top of it.   
+you can use `npm run init` __in the project root__ to download both the client and server dependencies, or :   
+- Setup server  
     1. `cd server`  
     3. `npm i` 
     3. `npm start` in `/server`. (yes, in server)
     4. `npm run test` - runs backend tests (required to pass).
-- setup client  
+- Setup client  
     1. `cd client`  
     3. `npm i` 
     3. `npm start` in `/client`. this can take a while
-- after installing all dependencies, you can also use `npm run dev` in in either folder to run both concurrently.
+- After installing all dependencies, you can also use `npm run dev` in in either folder to run both concurrently.
 
-- note: do not delete the root folder's package.json, it is necessary.
+- Note: do not delete the root folder's package.json, it is necessary.
   
-### other useful commands:
+### Other useful commands:
 - /server
-    - `npm run db:seed` - reseed the database (does not affect tests.) you can determine different parameters in [.env](server/.env)
+    - `npm run db:seed` - reseed the database (does not affect tests.) you can determine different parameters in [.env](server/.env). Useful in case the existing data is has very old dates and you want newer entries, or add properties you want to the data.
 
 ## Admin Page Requirements:
 
- - Make the following layout for tiles and make it compatible with different tile sizes and different screen sizes.
+ - Use the route '/admin' Make the following layout for tiles and make it compatible with different tile sizes and different screen sizes.
 
 ![](https://i.imgur.com/gtPzvXP.jpg)
 
- - While loading data show loading indicator you built using canvas tag
- - add controls for time-ranges in relevant charts (you can implement it in any way that still works with the [default requirements](backend.md)) 
- - The site uses `xstate` state machines for its data. you can use another method to send out AJAX if you prefer.
-
+ - Add controls for time-ranges in relevant charts (you can implement it in any way that still works with the [default requirements](backend.md)) 
+### [Backend Requirements](backend.md)
 ### Tiles to present:
  - Showing events on Google Map (cluster events).  
 you can use whichever library you choose, but [this one](https://www.npmjs.com/package/@react-google-maps/api) is recommended) 
@@ -51,7 +49,7 @@ you can use whichever library you choose, but [this one](https://www.npmjs.com/p
 ![How Startups Can Do Better Cohort Analyses – Philosophical Hacker](https://www.philosophicalhacker.com/images/cohort-analysis.png)
  - Showing log of all events - search option and filter by event name using regex. 
  
- The `Events Log` should load only 10 events, and load more only when the client scrolls down the log. 
+ The `Events Log` should load only 10 events, and load more only when the client scrolls down the log, order by time. 
 ![](https://i.imgur.com/hFlqDbG.png)
  - Showing page views for on each page.
  - Showing pie charts with users by operating system usage.
@@ -93,6 +91,7 @@ note- the repo uses 'husky' and you might find you can't push to github while th
 - All system will be coded using Typescript.
 - Add Error Boundaries around each tile (chart).
 - Use Styled Components for styling.
+- The site uses `xstate` state machines for its data. you can use another method to send out AJAX if you prefer.
 - Make it responsive for any screen size.
 - LINT YOUR CODE
 - Passing backend tests will pass the challenge, but other requirements will be inspected.
@@ -100,8 +99,10 @@ note- the repo uses 'husky' and you might find you can't push to github while th
 ## Bonuses
   - Make your own custom tiles.
   - Make the tiles resizable.
+  - Creating piece of code that send events from clients to the server and save it.
   - Add an option to change chart type (pie | bars | line) in the same tile 
   - Make the tiles move by drag and drop.
   - Make the time-frame adjustable on all charts
+  - While loading data show loading indicator you built using canvas tag
   - Add any feature you wish
   - Add tests for your features

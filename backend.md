@@ -43,14 +43,20 @@ let exampleEvent = {
   url: 'http://localhost3000/signup'
 }
 ```
-## /all
+---
+
+## POST /events
+recives `Event` object in the request body(according to Event interface), and add it to DB. 
+
+---
+## /events/all
 returns all events in an array:
 ```typescript
 declare function allEvents():event[]
 ```
 ---
 
-## /all-filtered
+## /events/all-filtered
 
 ```typescript
 interface Filter {
@@ -85,7 +91,7 @@ The entry point response format is
 ---
 ## /by-days/:offset
 
-reutns a count of __unique sessions__ (events with different `session_id`), grouped by days, __for one week.__
+reutns a count of __unique sessions for the relevant day__ (events with different `session_id`), grouped by days, __for one week.__
 
 __`offset`-__ number of days to go back from today. If `offset` is 0 the return result should be week ago strting from today.
 
@@ -144,7 +150,7 @@ __current date-__ 30/10/2020, __http request-__ `http://localhost:3000/events/by
 
 ## /by-hours/:offset
 
-reutns a count of __unique sessions__ (events with different `session_id`), grouped by hour, __for one day.__
+reutns a count of __unique sessions for the relevant hour__ (events with different `session_id`), grouped by hour, __for one day.__
 
 __`offset`-__ number of days to go back from today. If `offset` is 0 the return result should todays sessions.
 
@@ -179,20 +185,9 @@ example: __current date-__ 30/10/2020, __http request-__ `http://localhost:3000/
 ```
 ---
 
-## /today
-gets events from today
-```typescript
-declare function getToday() : event[] 
-```
----
-## /week
-gets events from the last 7 days
-```typescript
-declare function getWeek() : event[] 
-```
----
 ## /retention
-return the an array of objects with User retention Information for every week since launch.
+request url should look like: `/retention?dayZero=11231231` for instance.   
+get a "dayZero" query Parameter which denotes the day, as milliseconds, to start calculating from, return the an array of objects with User retention Information for every week since dayZero.
 For every week, what percent of the users that signed up on that week have logged in to the site on every consecutive week.
 ```typescript
 interface weeklyRetentionObject {
@@ -210,20 +205,31 @@ let week0Retention : weeklyRetentionObject = {
   end: '07/11/2020'
 } 
 
-declare function getRetentionCohort() : weeklyRetentionObject[]
+declare function getRetentionCohort(dayZero:number) : weeklyRetentionObject[]
 ```
 
-## /:eventId
+
+<!-- ## /today
+gets events from today
+```typescript
+declare function getToday() : event[] 
+```
+--- -->
+<!-- ## /week
+gets events from the last 7 days
+```typescript
+declare function getWeek() : event[] 
+```
+--- -->
+
+
+<!-- ## /:eventId
 return an event by its Id
 ```typescript
 declare function getEventById():event
-```
+``` -->
 
-## /chart/os/:time
-
-## /chart/pageview/:time
-
-## /chart/timeonurl/allusers
+<!-- ## /chart/timeonurl/allusers
 return array of objects. 
 every object need to seem like {_"userId": string, "username": string, "login": number, "signin": number, "admin": number, "home": number_}.
 every object show unique user and the counter of his events URL's time in seconds.
@@ -231,8 +237,4 @@ every object show unique user and the counter of his events URL's time in second
 ## /chart/timeonurl/inhours
 return array of objects. 
 every object need to seem like {_id:string ,url:string, date:number_}.
-every object show every event info with date that implements the time in hours of the event.
-
-## /chart/geolocation/:time
-
-
+every object show every event info with date that implements the time in hours of the event. -->

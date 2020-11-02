@@ -53,6 +53,7 @@ router.get('/week', (req: Request, res: Response) => {
 });
 
 router.get('/retention', (req: Request, res: Response) => {
+  const {dayZero} = req.query
   res.send('/retention')
 });
 router.get('/:eventId',(req : Request, res : Response) => {
