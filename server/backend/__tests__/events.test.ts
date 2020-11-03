@@ -45,7 +45,7 @@ describe("main test", () => {
     expect(isEventArray(allEvents)).toBe(true);
   });
 
-  it("can get unique sessions count by day", async () => {
+  it.only("can get unique sessions count by day", async () => {
     const { body: sessionsByDays } = await request(app).get("/events/by-days/0").expect(200)
 
     expect(sessionsByDays.length).toBe(7)
@@ -82,8 +82,6 @@ describe("main test", () => {
       `/events/retention?dayZero=${dayZero}`
     ).expect(200);
     
-    console.log(retentionData)
-
     expect(retentionData.length).toBe(6);
 
     expect(retentionData[0].newUsers).toBe(10);
@@ -96,6 +94,7 @@ describe("main test", () => {
     expect(retentionData[4].weeklyRetention).toEqual([ 100, 44 ]);
 
   });
+ 
   it("can filter events by browser", async () => {
 
     const { body: events}  = await request(app).get("/events/all-filtered")
@@ -141,7 +140,10 @@ describe("main test", () => {
   })
 
   it("can post new event", async () => {
-    await request(app).post("/events").send(mockData.events[0]).expect(200);
+    await request(app).post("/events").send(mockData.events[0])
+    .expect(({status})=>{
+      if(status!==200 && status !== 201) throw new Error(`Expected Status to be '200 OK' Or '201 Created', instead received ${status}`)
+    });
     const { body: allEvents2 } = await request(app).get("/events/all").expect(200);
     expect(allEvents2.length).toBe(301);
     expect(allEvents2[300].date).toBe(mockData.events[0].date);

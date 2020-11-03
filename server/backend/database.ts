@@ -50,7 +50,9 @@ import {
   TransactionQueryPayload,
   DefaultPrivacyLevel,
   Event,
-  weeklyRetentionObject
+  weeklyRetentionObject,
+  eventData,
+  eventName
 } from "../../client/src/models";
 import Fuse from "fuse.js";
 import {
@@ -188,7 +190,87 @@ export const getRetentionCohort = (dayZeroNumber:number):weeklyRetentionObject[]
   return  weeklyRetention 
 }
 
+export const getAllEvents = (
+  {
+    sorting,
+    type,
+    browser,
+    search,
+    offset
+  }:{
+    sorting?:string;
+    type?: eventName; 
+    browser?: string;
+    search?: string;
+    offset?: number;
+  }
+) :Event[]|{events:Event[],more:boolean} => { 
 
+  if(!sorting){
+    sorting = '-date'
+  }
+  let sort = sorting.slice(1)
+  let direction = sorting.slice(0,1)
+  let events = db.get('events')
+  .filter((event)=>{
+    const fitsType = type ? event.name === type : true
+    const fitsBrowser = browser ? event.browser === browser : true
+    let fitsSearch:boolean = search?false:true
+    if ( search ){
+      const regex = new RegExp(search)
+      fitsSearch = Object.keys(event).some(key=>regex.test(event[key].toString()))
+    }
+    return(fitsBrowser && fitsSearch && fitsType)
+  })
+  .orderBy(sort,direction==='-'?"desc":'asc')
+  .value()
+  return offset
+  ?{
+    events:events.slice(0,offset),
+    more:events.slice(0,offset).length !== events.length  
+  }
+  :events
+}
+
+export const createEvent = (eventData:any) => {
+  
+  console.log(eventData)
+  db.get(EVENT_TABLE).push(eventData).write();
+  
+}
+
+const backToMidnight = (time:number):number=>{
+  return new Date(new Date(time).toDateString()).getTime()
+}
+
+const dateString = (time:number):string=>{
+  const splitDate = new Date(time).toDateString().slice(4).split(' ')
+  const [month,day,year] = splitDate
+  return [day,month,year].join(' / ')
+}
+
+export const getSessionsByDay = (offset=0) : {date:string,count:number}[] => {
+  const days: number[] = new Array(offset||7).fill(1)
+  .map((day,i)=>{
+    return (backToMidnight(Date.now()-i*OneDay-offset*OneDay))
+  })
+  console.log('days',days.map(day=>dateString(day)))
+  const events = db.get(EVENT_TABLE)
+  .orderBy('date','asc')
+  
+  let sessionsByDays = days.map(day=>{
+    return {
+      date: dateString(day),
+      count:events
+      .remove((event=>event.date>day))
+      .remove((event=>event.date<day+OneDay))
+      .uniqBy('session_id')
+      .value().length
+    }
+  })
+  
+  return sessionsByDays.reverse()
+}
 
 
 export const getAllUsers = () => db.get(USER_TABLE).value();

@@ -5,9 +5,12 @@ import { Request, Response } from "express";
 
 // some useful database functions in here:
 import {
-  getRetentionCohort
+  createEvent,
+  getAllEvents,
+  getRetentionCohort,
+  getSessionsByDay
 } from "./database";
-import { Event, weeklyRetentionObject } from "../../client/src/models/event";
+import { Event, eventData, eventName, weeklyRetentionObject } from "../../client/src/models/event";
 import { ensureAuthenticated, validateMiddleware } from "./helpers";
 
 import {
@@ -29,16 +32,43 @@ interface Filter {
 }
 
 router.get('/all', (req: Request, res: Response) => {
-  res.send('/all')
-    
+  try{
+
+    const all = getAllEvents({})
+    res.status(200).json(all)
+  }catch(error){
+    console.error(error)
+  }
 });
 
+
 router.get('/all-filtered', (req: Request, res: Response) => {
-  res.send('/all-filtered')
+  const {
+    sorting,
+    type,
+    browser,
+    search,
+    offset
+  } = req.query
+  
+  const filter = {
+    sorting:sorting,
+    type,
+    browser,
+    search,
+    offset: Number(offset)||0
+  }
+  const filteredEvents = getAllEvents(filter)
+  res.json(filteredEvents)
 });
 
 router.get('/by-days/:offset', (req: Request, res: Response) => {
-  res.send('/by-days/:offset')
+  try{
+  const {offset} = req.params
+  res.json(getSessionsByDay(Number(offset)))
+  }catch(error){
+    console.error(error)
+  }
 });
 
 router.get('/by-hours/:offset', (req: Request, res: Response) => {
@@ -54,18 +84,26 @@ router.get('/week', (req: Request, res: Response) => {
 });
 
 router.get('/retention', (req: Request, res: Response) => {
-  const {dayZero}:{dayZero:number|string} = req.query
-  const retentionCohort:weeklyRetentionObject[] = getRetentionCohort(Number(dayZero));
-  
-  // res.json([1,2,3]);
-  res.json(retentionCohort);
+  try{
+
+    const {dayZero}:{dayZero:number|string} = req.query
+    const retentionCohort:weeklyRetentionObject[] = getRetentionCohort(Number(dayZero));
+    
+    res.json(retentionCohort);
+  } catch( error ){
+    console.error(error)
+  }
 });
+
 router.get('/:eventId',(req : Request, res : Response) => {
   res.send('/:eventId')
 });
 
 router.post('/', (req: Request, res: Response) => {
-  res.send('/')
+  const eventData:eventData = req.body
+  console.log(typeof eventData)
+  createEvent(eventData)
+  res.status(200).send('')
 });
 
 router.get('/chart/os/:time',(req: Request, res: Response) => {

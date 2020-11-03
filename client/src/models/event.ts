@@ -1,6 +1,16 @@
 export interface Event {
+  [asd:string]:string|number|GeoLocation;
   _id: string;
   session_id: string;
+  name: eventName;
+  url: string;
+  distinct_user_id: string;
+  date: number;
+  os: os;
+  browser: browser;
+  geolocation: GeoLocation;
+}
+export interface eventData {
   name: eventName;
   url: string;
   distinct_user_id: string;
