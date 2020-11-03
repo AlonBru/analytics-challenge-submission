@@ -8,7 +8,8 @@ import {
   createEvent,
   getAllEvents,
   getRetentionCohort,
-  getSessionsByDay
+  getSessionsByDay,
+  getSessionsByHour
 } from "./database";
 import { Event, eventData, eventName, weeklyRetentionObject } from "../../client/src/models/event";
 import { ensureAuthenticated, validateMiddleware } from "./helpers";
@@ -72,7 +73,13 @@ router.get('/by-days/:offset', (req: Request, res: Response) => {
 });
 
 router.get('/by-hours/:offset', (req: Request, res: Response) => {
-  res.send('/by-hours/:offset')
+  try{
+  const {offset} = req.params
+  res.json(getSessionsByHour(Number(offset)))
+  }catch(error){
+    console.error(error)
+  }
+  // res.send(1)
 });
 
 router.get('/today', (req: Request, res: Response) => {

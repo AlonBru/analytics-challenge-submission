@@ -262,8 +262,8 @@ export const getSessionsByDay = (offset=0) : {date:string,count:number}[] => {
     return {
       date: dateString(day),
       count:events
-      .remove((event=>event.date>day))
-      .remove((event=>event.date<day+OneDay))
+      .filter((event=>event.date>day))
+      .filter((event=>event.date<day+OneDay))
       .uniqBy('session_id')
       .value().length
     }
@@ -272,6 +272,32 @@ export const getSessionsByDay = (offset=0) : {date:string,count:number}[] => {
   return sessionsByDays.reverse()
 }
 
+export const getSessionsByHour = (offset=0) : {hour:string,count:number}[] => {
+  let midnight : number = backToMidnight(Date.now()-offset*OneDay)
+  let tomorrow :number = backToMidnight(midnight+25*OneHour)
+  
+  let sessionsToday : Event[] = db
+  .get('events')
+  .filter((event)=>{
+   return  event.date >= midnight && event.date < tomorrow
+  })
+  .uniqBy('session_id')
+  .value()
+  console.log(sessionsToday.length)
+  const sessionsByHour : {hour:string,count:number}[] =[]
+
+  for(let hour = tomorrow-OneHour;hour>=midnight;hour -= OneHour){
+    const hourString : number = new Date(hour).getHours()
+    const firstSession :number = sessionsToday.findIndex(({date})=>date>hour) 
+    const count : number=  sessionsToday.splice(firstSession).length
+    sessionsByHour.push({
+      hour:hourString+':00',
+      count
+    })
+  }
+  console.log(sessionsByHour)
+  return sessionsByHour
+}
 
 export const getAllUsers = () => db.get(USER_TABLE).value();
 
