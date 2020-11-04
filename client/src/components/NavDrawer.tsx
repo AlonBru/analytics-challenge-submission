@@ -13,6 +13,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import HomeIcon from "@material-ui/icons/Home";
+import Paul from "@material-ui/icons/Poll";
 import PersonIcon from "@material-ui/icons/Person";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -40,6 +41,18 @@ export const mainListItems = (
         <HomeIcon />
       </ListItemIcon>
       <ListItemText primary="Home" />
+    </ListItem>
+    <ListItem
+      button
+      // @ts-ignore
+      onClick={() => showTemporaryDrawer && toggleDrawer()}
+      component={RouterLink}
+      to="/admin"
+    >
+      <ListItemIcon>
+        <Paul />
+      </ListItemIcon>
+      <ListItemText primary="Admin" />
     </ListItem>
     <ListItem
       button
@@ -123,7 +136,7 @@ const useStyles = makeStyles((theme) => ({
     }),
     width: theme.spacing(7),
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9),
+      width: theme.spacing(2),
     },
   },
   userProfile: {

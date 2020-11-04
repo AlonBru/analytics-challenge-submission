@@ -3,7 +3,6 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { useService, useMachine } from "@xstate/react";
 import { makeStyles } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
-import DashBoard from "./DashBoard";
 import { snackbarMachine } from "../machines/snackbarMachine";
 import { notificationsMachine } from "../machines/notificationsMachine";
 import { authService } from "../machines/authMachine";
@@ -12,7 +11,7 @@ import SignInForm from "../components/SignInForm";
 import SignUpForm from "../components/SignUpForm";
 import { bankAccountsMachine } from "../machines/bankAccountsMachine";
 import PrivateRoutesContainer from "./PrivateRoutesContainer";
-
+// import DashBoard from './'
 // @ts-ignore
 if (window.Cypress) {
   // Expose authService on window for Cypress

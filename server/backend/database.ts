@@ -103,7 +103,7 @@ const db = low(adapter);
 
 export const seedDatabase = () => {
   const testSeed = JSON.parse(
-    fs.readFileSync(path.join(process.cwd(), "data", "database-seed.json"), "utf-8")
+    fs.readFileSync(path.join(process.cwd(), "data", "database.json"), "utf-8")
   );
 
   // seed database with test data
@@ -234,13 +234,15 @@ export const getAllEvents = (
 
 export const createEvent = (eventData:any) => {
   
-  console.log(eventData)
   db.get(EVENT_TABLE).push(eventData).write();
   
 }
 
 const backToMidnight = (time:number):number=>{
   return new Date(new Date(time).toDateString()).getTime()
+}
+const nextDay = (time:number):number=>{
+  return new Date(new Date(time+OneDay+2*OneHour).toDateString()).getTime()
 }
 
 const dateString = (time:number):string=>{
@@ -254,7 +256,6 @@ export const getSessionsByDay = (offset=0) : {date:string,count:number}[] => {
   .map((day,i)=>{
     return (backToMidnight(Date.now()-i*OneDay-offset*OneDay))
   })
-  console.log('days',days.map(day=>dateString(day)))
   const events = db.get(EVENT_TABLE)
   .orderBy('date','asc')
   
@@ -263,7 +264,7 @@ export const getSessionsByDay = (offset=0) : {date:string,count:number}[] => {
       date: dateString(day),
       count:events
       .filter((event=>event.date>day))
-      .filter((event=>event.date<day+OneDay))
+      .filter((event=>event.date<nextDay(day)))
       .uniqBy('session_id')
       .value().length
     }
@@ -283,7 +284,6 @@ export const getSessionsByHour = (offset=0) : {hour:string,count:number}[] => {
   })
   .uniqBy('session_id')
   .value()
-  console.log(sessionsToday.length)
   const sessionsByHour : {hour:string,count:number}[] =[]
 
   for(let hour = tomorrow-OneHour;hour>=midnight;hour -= OneHour){
@@ -295,7 +295,6 @@ export const getSessionsByHour = (offset=0) : {hour:string,count:number}[] => {
       count
     })
   }
-  console.log(sessionsByHour)
   return sessionsByHour
 }
 

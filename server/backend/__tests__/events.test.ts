@@ -45,16 +45,24 @@ describe("main test", () => {
     expect(isEventArray(allEvents)).toBe(true);
   });
 
-  it("can get unique sessions count by day", async () => {
+  it.only("can get unique sessions count by day", async () => {
     const { body: sessionsByDays } = await request(app).get("/events/by-days/0").expect(200)
-    console.log(sessionsByDays)
+    console.log(111,sessionsByDays)
     expect(sessionsByDays.length).toBe(7)
     expect(sessionsByDays.reduce((sum: number, day: {date: string; count: number}) => sum += day.count, 0)).toBe(145
       )
     expect(sessionsByDays[0].count).toBe(19);
-
+    // [
+    //   { date: '10/22/2020', count: 11 },
+    //   { date: '10/23/2020', count: 9 },
+    //   { date: '10/24/2020', count: 8 },
+    //   { date: '10/25/2020', count: 9 },
+    //   { date: '10/26/2020', count: 12 },
+    //   { date: '10/27/2020', count: 15 },
+    //   { date: '10/28/2020', count: 14 }
+    // ]
     const { body: sessionsByDays2 } = await request(app).get("/events/by-days/7").expect(200)
-
+    console.log(333,sessionsByDays2)
     expect(sessionsByDays2.length).toBe(7)
     expect(sessionsByDays2.reduce((sum: number, day: {date: string; count: number}) => sum += day.count, 0)).toBe(78)
     expect(sessionsByDays2[0].count).toBe(11);
@@ -64,7 +72,6 @@ describe("main test", () => {
 
   it("can get unique sessions count by hour", async () => {
     const { body: sessionsByHours } = await request(app).get("/events/by-hours/0").expect(200)
-
     expect(sessionsByHours.length).toBe(24)
     expect(sessionsByHours.reduce((sum: number, day: {date: string; count: number}) => sum += day.count, 0)).toBe(7)
 
