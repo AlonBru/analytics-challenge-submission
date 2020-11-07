@@ -1,7 +1,9 @@
-///<reference path="types.ts" />
+/// <reference path="types.ts" />
 
-import express from "express";
-import { remove, isEmpty, slice, concat } from "lodash/fp";
+import express from 'express';
+import {
+  remove, isEmpty, slice, concat,
+} from 'lodash/fp';
 import {
   getTransactionsForUserContacts,
   createTransaction,
@@ -10,8 +12,8 @@ import {
   getTransactionByIdForApi,
   getTransactionsForUserForApi,
   getPublicTransactionsByQuery,
-} from "./database";
-import { ensureAuthenticated, validateMiddleware } from "./helpers";
+} from './database';
+import { ensureAuthenticated, validateMiddleware } from './helpers';
 import {
   sanitizeTransactionStatus,
   sanitizeRequestStatus,
@@ -20,15 +22,16 @@ import {
   shortIdValidation,
   isTransactionPatchValidator,
   isTransactionPublicQSValidator,
-} from "./validators";
-import { getPaginatedItems } from "../../client/src/utils/transactionUtils";
+} from './validators';
+import { getPaginatedItems } from '../../client/src/utils/transactionUtils';
+
 const router = express.Router();
 
 // Routes
 
-//GET /transactions - scoped user, auth-required
+// GET /transactions - scoped user, auth-required
 router.get(
-  "/",
+  '/',
   ensureAuthenticated,
   validateMiddleware([
     sanitizeTransactionStatus,
@@ -42,7 +45,7 @@ router.get(
     const { totalPages, data: paginatedItems } = getPaginatedItems(
       req.query.page,
       req.query.limit,
-      transactions
+      transactions,
     );
 
     res.status(200);
@@ -55,12 +58,12 @@ router.get(
       },
       results: paginatedItems,
     });
-  }
+  },
 );
 
-//GET /transactions/contacts - scoped user, auth-required
+// GET /transactions/contacts - scoped user, auth-required
 router.get(
-  "/contacts",
+  '/contacts',
   ensureAuthenticated,
   validateMiddleware([
     sanitizeTransactionStatus,
@@ -74,7 +77,7 @@ router.get(
     const { totalPages, data: paginatedItems } = getPaginatedItems(
       req.query.page,
       req.query.limit,
-      transactions
+      transactions,
     );
 
     res.status(200);
@@ -87,22 +90,22 @@ router.get(
       },
       results: paginatedItems,
     });
-  }
+  },
 );
 
-//GET /transactions/public - auth-required
+// GET /transactions/public - auth-required
 router.get(
-  "/public",
+  '/public',
   ensureAuthenticated,
   validateMiddleware(isTransactionPublicQSValidator),
   (req, res) => {
     const isFirstPage = req.query.page === 1;
 
     /* istanbul ignore next */
-    let transactions = !isEmpty(req.query)
+    const transactions = !isEmpty(req.query)
       ? getPublicTransactionsByQuery(req.user?.id!, req.query)
       : /* istanbul ignore next */
-        getPublicTransactionsDefaultSort(req.user?.id!);
+      getPublicTransactionsDefaultSort(req.user?.id!);
 
     const { contactsTransactions, publicTransactions } = transactions;
 
@@ -117,7 +120,7 @@ router.get(
     const { totalPages, data: paginatedItems } = getPaginatedItems(
       req.query.page,
       req.query.limit,
-      isFirstPage ? publicTransactionsWithContacts : publicTransactions
+      isFirstPage ? publicTransactionsWithContacts : publicTransactions,
     );
 
     res.status(200);
@@ -130,33 +133,33 @@ router.get(
       },
       results: paginatedItems,
     });
-  }
+  },
 );
 
-//POST /transactions - scoped-user
+// POST /transactions - scoped-user
 router.post(
-  "/",
+  '/',
   ensureAuthenticated,
   validateMiddleware(isTransactionPayloadValidator),
   (req, res) => {
     const transactionPayload = req.body;
-    const transactionType = transactionPayload.transactionType;
+    const { transactionType } = transactionPayload;
 
-    remove("transactionType", transactionPayload);
+    remove('transactionType', transactionPayload);
 
     /* istanbul ignore next */
     const transaction = createTransaction(req.user?.id!, transactionType, transactionPayload);
 
     res.status(200);
     res.json({ transaction });
-  }
+  },
 );
 
-//GET /transactions/:transactionId - scoped-user
+// GET /transactions/:transactionId - scoped-user
 router.get(
-  "/:transactionId",
+  '/:transactionId',
   ensureAuthenticated,
-  validateMiddleware([shortIdValidation("transactionId")]),
+  validateMiddleware([shortIdValidation('transactionId')]),
   (req, res) => {
     const { transactionId } = req.params;
 
@@ -164,14 +167,14 @@ router.get(
 
     res.status(200);
     res.json({ transaction });
-  }
+  },
 );
 
-//PATCH /transactions/:transactionId - scoped-user
+// PATCH /transactions/:transactionId - scoped-user
 router.patch(
-  "/:transactionId",
+  '/:transactionId',
   ensureAuthenticated,
-  validateMiddleware([shortIdValidation("transactionId"), ...isTransactionPatchValidator]),
+  validateMiddleware([shortIdValidation('transactionId'), ...isTransactionPatchValidator]),
   (req, res) => {
     const { transactionId } = req.params;
 
@@ -179,7 +182,7 @@ router.patch(
     updateTransactionById(transactionId, req.body);
 
     res.sendStatus(204);
-  }
+  },
 );
 
 export default router;

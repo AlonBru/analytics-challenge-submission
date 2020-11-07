@@ -1,14 +1,16 @@
-import React from "react";
-import { format as formatDate } from "date-fns";
-import { Popover, Chip, useTheme, makeStyles, Drawer, Button } from "@material-ui/core";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import CancelIcon from "@material-ui/icons/Cancel";
-import indigo from "@material-ui/core/colors/indigo";
-import InfiniteCalendar, { Calendar, withRange } from "react-infinite-calendar";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import "react-infinite-calendar/styles.css";
-import { TransactionDateRangePayload } from "../models";
-import { hasDateQueryFields } from "../utils/transactionUtils";
+import React from 'react';
+import { format as formatDate } from 'date-fns';
+import {
+  Popover, Chip, useTheme, makeStyles, Drawer, Button,
+} from '@material-ui/core';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import CancelIcon from '@material-ui/icons/Cancel';
+import indigo from '@material-ui/core/colors/indigo';
+import InfiniteCalendar, { Calendar, withRange } from 'react-infinite-calendar';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import 'react-infinite-calendar/styles.css';
+import { TransactionDateRangePayload } from '../models';
+import { hasDateQueryFields } from '../utils/transactionUtils';
 
 const CalendarWithRange = withRange(Calendar);
 
@@ -20,7 +22,7 @@ export type TransactionListDateRangeFilterProps = {
 
 const useStyles = makeStyles((theme) => ({
   popover: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('sm')]: {
       top: 0,
       left: 0,
       right: 0,
@@ -36,7 +38,7 @@ const TransactionListDateRangeFilter: React.FC<TransactionListDateRangeFilterPro
 }) => {
   const classes = useStyles();
   const theme = useTheme();
-  const xsBreakpoint = useMediaQuery(theme.breakpoints.only("xs"));
+  const xsBreakpoint = useMediaQuery(theme.breakpoints.only('xs'));
   const queryHasDateFields = dateRangeFilters && hasDateQueryFields(dateRangeFilters);
 
   const [dateRangeAnchorEl, setDateRangeAnchorEl] = React.useState<HTMLDivElement | null>(null);
@@ -60,11 +62,9 @@ const TransactionListDateRangeFilter: React.FC<TransactionListDateRangeFilterPro
   };
 
   const dateRangeOpen = Boolean(dateRangeAnchorEl);
-  const dateRangeId = dateRangeOpen ? "date-range-popover" : undefined;
+  const dateRangeId = dateRangeOpen ? 'date-range-popover' : undefined;
 
-  const formatButtonDate = (date: string) => {
-    return formatDate(new Date(date), "MMM, d yyyy");
-  };
+  const formatButtonDate = (date: string) => formatDate(new Date(date), 'MMM, d yyyy');
 
   const dateRangeLabel = (dateRangeFields: TransactionDateRangePayload) => {
     const { dateRangeStart, dateRangeEnd } = dateRangeFields;
@@ -79,7 +79,7 @@ const TransactionListDateRangeFilter: React.FC<TransactionListDateRangeFilterPro
           variant="outlined"
           onClick={handleDateRangeClick}
           data-test="transaction-list-filter-date-range-button"
-          label={"Date: ALL"}
+          label="Date: ALL"
           deleteIcon={<ArrowDropDownIcon />}
           onDelete={handleDateRangeClick}
         />
@@ -103,12 +103,12 @@ const TransactionListDateRangeFilter: React.FC<TransactionListDateRangeFilterPro
           anchorEl={dateRangeAnchorEl}
           onClose={handleDateRangeClose}
           anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
+            vertical: 'bottom',
+            horizontal: 'left',
           }}
           transformOrigin={{
-            vertical: "top",
-            horizontal: "left",
+            vertical: 'top',
+            horizontal: 'left',
           }}
           className={classes.popover}
         >
@@ -121,17 +121,17 @@ const TransactionListDateRangeFilter: React.FC<TransactionListDateRangeFilterPro
             selected={false}
             onSelect={onCalendarSelect}
             locale={{
-              headerFormat: "MMM Do",
+              headerFormat: 'MMM Do',
             }}
             theme={{
-              accentColor: indigo["400"],
-              headerColor: indigo["500"],
-              weekdayColor: indigo["300"],
-              selectionColor: indigo["300"],
+              accentColor: indigo['400'],
+              headerColor: indigo['500'],
+              weekdayColor: indigo['300'],
+              selectionColor: indigo['300'],
               floatingNav: {
-                background: indigo["400"],
-                color: "#FFF",
-                chevron: "#FFA726",
+                background: indigo['400'],
+                color: '#FFF',
+                chevron: '#FFA726',
               },
             }}
           />
@@ -157,17 +157,17 @@ const TransactionListDateRangeFilter: React.FC<TransactionListDateRangeFilterPro
             selected={false}
             onSelect={onCalendarSelect}
             locale={{
-              headerFormat: "MMM Do",
+              headerFormat: 'MMM Do',
             }}
             theme={{
-              accentColor: indigo["400"],
-              headerColor: indigo["500"],
-              weekdayColor: indigo["300"],
-              selectionColor: indigo["300"],
+              accentColor: indigo['400'],
+              headerColor: indigo['500'],
+              weekdayColor: indigo['300'],
+              selectionColor: indigo['300'],
               floatingNav: {
-                background: indigo["400"],
-                color: "#FFF",
-                chevron: "#FFA726",
+                background: indigo['400'],
+                color: '#FFF',
+                chevron: '#FFA726',
               },
             }}
           />

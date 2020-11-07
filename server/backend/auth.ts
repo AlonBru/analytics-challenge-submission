@@ -1,18 +1,19 @@
-import bcrypt from "bcryptjs";
-import passport from "passport";
-import express, { Request, Response } from "express";
-import { User } from "../../client/src/models";
-import { getUserBy, getUserById } from "./database";
+import bcrypt from 'bcryptjs';
+import passport from 'passport';
+import express, { Request, Response } from 'express';
+import { User } from '../../client/src/models';
+import { getUserBy, getUserById } from './database';
 
-const LocalStrategy = require("passport-local").Strategy;
+const LocalStrategy = require('passport-local').Strategy;
+
 const router = express.Router();
 
 // configure passport for local strategy
 passport.use(
-  new LocalStrategy(function (username: string, password: string, done: Function) {
-    const user = getUserBy("username", username);
+  new LocalStrategy((username: string, password: string, done: Function) => {
+    const user = getUserBy('username', username);
 
-    const failureMessage = "Incorrect username or password.";
+    const failureMessage = 'Incorrect username or password.';
     if (!user) {
       return done(null, false, { message: failureMessage });
     }
@@ -23,20 +24,20 @@ passport.use(
     }
 
     return done(null, user);
-  })
+  }),
 );
 
-passport.serializeUser(function (user: User, done) {
+passport.serializeUser((user: User, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser(function (id: string, done) {
+passport.deserializeUser((id: string, done) => {
   const user = getUserById(id);
   done(null, user);
 });
 
 // authentication routes
-router.post("/login", passport.authenticate("local"), (req: Request, res: Response): void => {
+router.post('/login', passport.authenticate('local'), (req: Request, res: Response): void => {
   if (req.body.remember) {
     req.session!.cookie.maxAge = 24 * 60 * 60 * 1000 * 30; // Expire in 30 days
   } else {
@@ -46,18 +47,18 @@ router.post("/login", passport.authenticate("local"), (req: Request, res: Respon
   res.send({ user: req.user });
 });
 
-router.post("/logout", (req: Request, res: Response): void => {
-  res.clearCookie("connect.sid");
+router.post('/logout', (req: Request, res: Response): void => {
+  res.clearCookie('connect.sid');
   req.logout();
-  req.session!.destroy(function (err) {
-    res.redirect("/");
+  req.session!.destroy((err) => {
+    res.redirect('/');
   });
 });
 
-router.get("/checkAuth", (req, res) => {
+router.get('/checkAuth', (req, res) => {
   /* istanbul ignore next */
   if (!req.user) {
-    res.status(401).json({ error: "User is unauthorized" });
+    res.status(401).json({ error: 'User is unauthorized' });
   } else {
     res.status(200).json({ user: req.user });
   }

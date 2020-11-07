@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
-import { useService } from "@xstate/react";
-import { Link as RouterLink, useRouteMatch } from "react-router-dom";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import { makeStyles } from "@material-ui/core/styles";
-import BankAccountList from "../components/BankAccountList";
-import { Grid, Button } from "@material-ui/core";
-import BankAccountForm from "../components/BankAccountForm";
-import { Interpreter } from "xstate";
-import { AuthMachineContext, AuthMachineEvents } from "../machines/authMachine";
-import { DataContext, DataEvents } from "../machines/dataMachine";
+import React, { useEffect } from 'react';
+import { useService } from '@xstate/react';
+import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import { Grid, Button } from '@material-ui/core';
+import { Interpreter } from 'xstate';
+import BankAccountList from '../components/BankAccountList';
+import BankAccountForm from '../components/BankAccountForm';
+import { AuthMachineContext, AuthMachineEvents } from '../machines/authMachine';
+import { DataContext, DataEvents } from '../machines/dataMachine';
 
 export interface Props {
   authService: Interpreter<AuthMachineContext, any, AuthMachineEvents, any>;
@@ -19,9 +19,9 @@ export interface Props {
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
-    display: "flex",
-    overflow: "auto",
-    flexDirection: "column",
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
   },
 }));
 
@@ -34,18 +34,18 @@ const BankAccountsContainer: React.FC<Props> = ({ authService, bankAccountsServi
   const currentUser = authState?.context.user;
 
   const createBankAccount = (payload: any) => {
-    sendBankAccounts("CREATE", payload);
+    sendBankAccounts('CREATE', payload);
   };
 
   const deleteBankAccount = (payload: any) => {
-    sendBankAccounts("DELETE", payload);
+    sendBankAccounts('DELETE', payload);
   };
 
   useEffect(() => {
-    sendBankAccounts("FETCH");
+    sendBankAccounts('FETCH');
   }, [sendBankAccounts]);
 
-  if (match.url === "/bankaccounts/new" && currentUser?.id) {
+  if (match.url === '/bankaccounts/new' && currentUser?.id) {
     return (
       <Paper className={classes.paper}>
         <Typography component="h2" variant="h6" color="primary" gutterBottom>

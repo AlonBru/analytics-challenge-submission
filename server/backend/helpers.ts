@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
-import { validationResult } from "express-validator";
-import { getUserById } from "./database";
+import { Request, Response, NextFunction } from 'express';
+import { validationResult } from 'express-validator';
+import { getUserById } from './database';
 
 export const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) => {
   if (req.isAuthenticated()) {
@@ -8,21 +8,19 @@ export const ensureAuthenticated = (req: Request, res: Response, next: NextFunct
   }
   /* istanbul ignore next */
   res.status(401).send({
-    error: "Unauthorized",
+    error: 'Unauthorized',
   });
 };
 
-export const validateMiddleware = (validations: any[]) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    await Promise.all(validations.map((validation: any) => validation.run(req)));
+export const validateMiddleware = (validations: any[]) => async (req: Request, res: Response, next: NextFunction) => {
+  await Promise.all(validations.map((validation: any) => validation.run(req)));
 
-    const errors = validationResult(req);
-    if (errors.isEmpty()) {
-      return next();
-    }
+  const errors = validationResult(req);
+  if (errors.isEmpty()) {
+    return next();
+  }
 
-    res.status(422).json({ errors: errors.array() });
-  };
+  res.status(422).json({ errors: errors.array() });
 };
 
 export function AdminValidation(req: Request, res: Response, next: NextFunction) {
@@ -33,7 +31,7 @@ export function AdminValidation(req: Request, res: Response, next: NextFunction)
     next();
   } else {
     res.status(401).send({
-      error: "Unauthorized",
+      error: 'Unauthorized',
     });
   }
 }

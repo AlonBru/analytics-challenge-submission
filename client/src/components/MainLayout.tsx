@@ -1,22 +1,22 @@
-import React, { useEffect } from "react";
-import { useMachine } from "@xstate/react";
-import { Interpreter } from "xstate";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import { useMediaQuery, useTheme } from "@material-ui/core";
+import React, { useEffect } from 'react';
+import { useMachine } from '@xstate/react';
+import { Interpreter } from 'xstate';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import { useMediaQuery, useTheme } from '@material-ui/core';
 
-import Footer from "./Footer";
-import NavBar from "./NavBar";
-import NavDrawer from "./NavDrawer";
-import { DataContext, DataEvents } from "../machines/dataMachine";
-import { AuthMachineContext, AuthMachineEvents } from "../machines/authMachine";
-import { drawerMachine } from "../machines/drawerMachine";
+import Footer from './Footer';
+import NavBar from './NavBar';
+import NavDrawer from './NavDrawer';
+import { DataContext, DataEvents } from '../machines/dataMachine';
+import { AuthMachineContext, AuthMachineEvents } from '../machines/authMachine';
+import { drawerMachine } from '../machines/drawerMachine';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin:0,
-    display: "flex",
+    margin: 0,
+    display: 'flex',
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -26,18 +26,18 @@ const useStyles = makeStyles((theme) => ({
     // [theme.breakpoints.up("sm")]: {
     //   minHeight: theme.spacing(14),
     // },
-    height: "10vh",
+    height: '10vh',
   },
   content: {
     flexGrow: 1,
-    height: "100vh",
+    height: '100vh',
     overflow: 'scroll',
   },
   container: {
-    minHeight: "77vh",
+    minHeight: '77vh',
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       paddingTop: theme.spacing(4),
       padding: theme.spacing(4),
     },
@@ -55,20 +55,20 @@ const MainLayout: React.FC<Props> = ({ children, notificationsService, authServi
   const theme = useTheme();
   const [drawerState, sendDrawer] = useMachine(drawerMachine);
 
-  const aboveSmallBreakpoint = useMediaQuery(theme.breakpoints.up("sm"));
-  const xsBreakpoint = useMediaQuery(theme.breakpoints.only("xs"));
+  const aboveSmallBreakpoint = useMediaQuery(theme.breakpoints.up('sm'));
+  const xsBreakpoint = useMediaQuery(theme.breakpoints.only('xs'));
 
-  const desktopDrawerOpen = drawerState?.matches({ desktop: "closed" });
-  const mobileDrawerOpen = drawerState?.matches({ mobile: "closed" });
+  const desktopDrawerOpen = drawerState?.matches({ desktop: 'closed' });
+  const mobileDrawerOpen = drawerState?.matches({ mobile: 'closed' });
   const toggleDesktopDrawer = () => {
-    sendDrawer("TOGGLE_DESKTOP");
+    sendDrawer('TOGGLE_DESKTOP');
   };
   const toggleMobileDrawer = () => {
-    sendDrawer("TOGGLE_MOBILE");
+    sendDrawer('TOGGLE_MOBILE');
   };
 
-  const openDesktopDrawer = (payload: any) => sendDrawer("OPEN_DESKTOP", payload);
-  const closeMobileDrawer = () => sendDrawer("CLOSE_MOBILE");
+  const openDesktopDrawer = (payload: any) => sendDrawer('OPEN_DESKTOP', payload);
+  const closeMobileDrawer = () => sendDrawer('CLOSE_MOBILE');
 
   useEffect(() => {
     if (!desktopDrawerOpen && aboveSmallBreakpoint) {
@@ -96,7 +96,7 @@ const MainLayout: React.FC<Props> = ({ children, notificationsService, authServi
           <Grid container spacing={3}>
             <Grid item xs={12}>
               {children}
-           </Grid>
+            </Grid>
           </Grid>
         </Container>
         {/* <footer>

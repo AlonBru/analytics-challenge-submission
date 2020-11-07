@@ -1,13 +1,12 @@
-import React from "react";
+import React from 'react';
 
-import ListItem from "@material-ui/core/ListItem";
-import LikeIcon from "@material-ui/icons/ThumbUpAltOutlined";
-import PaymentIcon from "@material-ui/icons/Payment";
-import CommentIcon from "@material-ui/icons/CommentRounded";
-import IconButton from "@material-ui/core/IconButton";
-import CheckIcon from "@material-ui/icons/Check";
-import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
-import { NotificationResponseItem } from "../models";
+import ListItem from '@material-ui/core/ListItem';
+import LikeIcon from '@material-ui/icons/ThumbUpAltOutlined';
+import PaymentIcon from '@material-ui/icons/Payment';
+import CommentIcon from '@material-ui/icons/CommentRounded';
+import IconButton from '@material-ui/core/IconButton';
+import CheckIcon from '@material-ui/icons/Check';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import {
   Button,
   makeStyles,
@@ -15,14 +14,15 @@ import {
   ListItemText,
   useTheme,
   useMediaQuery,
-} from "@material-ui/core";
+} from '@material-ui/core';
+import { NotificationResponseItem } from '../models';
 import {
   isCommentNotification,
   isLikeNotification,
   isPaymentNotification,
   isPaymentRequestedNotification,
   isPaymentReceivedNotification,
-} from "../utils/transactionUtils";
+} from '../utils/transactionUtils';
 
 export interface NotificationListItemProps {
   notification: NotificationResponseItem;
@@ -31,19 +31,19 @@ export interface NotificationListItemProps {
 
 const useStyles = makeStyles({
   card: {
-    minWidth: "100%",
+    minWidth: '100%',
   },
   title: {
     fontSize: 18,
   },
   green: {
-    color: "#4CAF50",
+    color: '#4CAF50',
   },
   red: {
-    color: "red",
+    color: 'red',
   },
   blue: {
-    color: "blue",
+    color: 'blue',
   },
 });
 
@@ -53,9 +53,9 @@ const NotificationListItem: React.FC<NotificationListItemProps> = ({
 }) => {
   const classes = useStyles();
   const theme = useTheme();
-  let listItemText = undefined;
-  let listItemIcon = undefined;
-  const xsBreakpoint = useMediaQuery(theme.breakpoints.only("xs"));
+  let listItemText;
+  let listItemIcon;
+  const xsBreakpoint = useMediaQuery(theme.breakpoints.only('xs'));
 
   if (isCommentNotification(notification)) {
     listItemIcon = <CommentIcon />;

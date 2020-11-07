@@ -39,3 +39,10 @@ export type Location = {
   lat: number;
   lng: number;
 };
+
+export type MapData = {
+  location:Location,
+  date:string,
+  user:string,
+  avatar:string
+}

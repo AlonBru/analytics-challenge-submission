@@ -1,32 +1,34 @@
-import React from "react";
-import { head } from "lodash/fp";
-import { Interpreter } from "xstate";
-import { useService } from "@xstate/react";
-import clsx from "clsx";
-import { useMediaQuery, useTheme } from "@material-ui/core";
-import { Link as RouterLink } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import HomeIcon from "@material-ui/icons/Home";
-import Paul from "@material-ui/icons/Poll";
-import PersonIcon from "@material-ui/icons/Person";
-import LogoutIcon from "@material-ui/icons/ExitToApp";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
-import { Grid, Avatar, Typography } from "@material-ui/core";
-import { formatAmount } from "../utils/transactionUtils";
-import { AuthMachineContext, AuthMachineEvents } from "../machines/authMachine";
+import React from 'react';
+import { head } from 'lodash/fp';
+import { Interpreter } from 'xstate';
+import { useService } from '@xstate/react';
+import clsx from 'clsx';
+import {
+  useMediaQuery, useTheme, Grid, Avatar, Typography,
+} from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import HomeIcon from '@material-ui/icons/Home';
+import Paul from '@material-ui/icons/Poll';
+import PersonIcon from '@material-ui/icons/Person';
+import LogoutIcon from '@material-ui/icons/ExitToApp';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+
+import { formatAmount } from '../utils/transactionUtils';
+import { AuthMachineContext, AuthMachineEvents } from '../machines/authMachine';
 
 const drawerWidth = 240;
 
 export const mainListItems = (
   toggleDrawer: ((event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void) | undefined,
-  showTemporaryDrawer: Boolean
+  showTemporaryDrawer: Boolean,
 ) => (
   <div>
     <ListItem
@@ -112,30 +114,30 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 24, // keep right padding when drawer closed
   },
   toolbarIcon: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    padding: "0 8px",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
     ...theme.mixins.toolbar,
   },
   drawerPaper: {
-    position: "relative",
-    whiteSpace: "nowrap",
+    position: 'relative',
+    whiteSpace: 'nowrap',
     width: drawerWidth,
-    transition: theme.transitions.create("width", {
+    transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   drawerPaperClose: {
     marginTop: 50,
-    overflowX: "hidden",
-    transition: theme.transitions.create("width", {
+    overflowX: 'hidden',
+    transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     width: theme.spacing(7),
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       width: theme.spacing(2),
     },
   },
@@ -143,7 +145,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   userProfileHidden: {
-    display: "none",
+    display: 'none',
   },
   avatar: {
     marginRight: theme.spacing(2),
@@ -152,13 +154,13 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
   },
   amount: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   accountBalanceHidden: {
-    display: "none",
+    display: 'none',
   },
   cypressLogo: {
-    width: "40%",
+    width: '40%',
   },
 }));
 
@@ -178,15 +180,15 @@ const NavDrawer: React.FC<Props> = ({
   const classes = useStyles();
   const theme = useTheme();
   const [authState, sendAuth] = useService(authService);
-  const showTemporaryDrawer = useMediaQuery(theme.breakpoints.only("xs"));
+  const showTemporaryDrawer = useMediaQuery(theme.breakpoints.only('xs'));
 
   const currentUser = authState?.context?.user;
 
-  const signOut = () => sendAuth("LOGOUT");
+  const signOut = () => sendAuth('LOGOUT');
   return (
     <Drawer
       data-test="sidenav"
-      variant={showTemporaryDrawer ? "temporary" : "persistent"}
+      variant={showTemporaryDrawer ? 'temporary' : 'persistent'}
       classes={{
         paper: clsx(classes.drawerPaper, !drawerOpen && classes.drawerPaperClose),
       }}
@@ -220,7 +222,9 @@ const NavDrawer: React.FC<Props> = ({
                 color="textPrimary"
                 data-test="sidenav-user-full-name"
               >
-                {currentUser.firstName} {head(currentUser.lastName)}
+                {currentUser.firstName}
+                {' '}
+                {head(currentUser.lastName)}
               </Typography>
               <Typography
                 variant="subtitle2"
@@ -228,12 +232,13 @@ const NavDrawer: React.FC<Props> = ({
                 gutterBottom
                 data-test="sidenav-username"
               >
-                @{currentUser.username}
+                @
+                {currentUser.username}
               </Typography>
             </>
           )}
         </Grid>
-        <Grid item style={{ width: "30%" }}></Grid>
+        <Grid item style={{ width: '30%' }} />
       </Grid>
       <Grid
         container

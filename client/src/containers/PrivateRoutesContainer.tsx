@@ -1,21 +1,22 @@
-import React, { useEffect } from "react";
-import { Switch, Route } from "react-router";
-import { Interpreter } from "xstate";
-import MainLayout from "../components/MainLayout";
-import PrivateRoute from "../components/PrivateRoute";
-import TransactionsContainer from "./TransactionsContainer";
-import UserSettingsContainer from "./UserSettingsContainer";
-import NotificationsContainer from "./NotificationsContainer";
-import BankAccountsContainer from "./BankAccountsContainer";
-import TransactionCreateContainer from "./TransactionCreateContainer";
-import TransactionDetailContainer from "./TransactionDetailContainer";
-import { DataContext, DataSchema, DataEvents } from "../machines/dataMachine";
-import { AuthMachineContext, AuthMachineEvents } from "../machines/authMachine";
-import { SnackbarContext, SnackbarSchema, SnackbarEvents } from "../machines/snackbarMachine";
-import { useService } from "@xstate/react";
-import UserOnboardingContainer from "./UserOnboardingContainer";
+import React, { useEffect } from 'react';
+import { Switch, Route } from 'react-router';
+import { Interpreter } from 'xstate';
+import { useService } from '@xstate/react';
+import MainLayout from '../components/MainLayout';
+import PrivateRoute from '../components/PrivateRoute';
+import TransactionsContainer from './TransactionsContainer';
+import UserSettingsContainer from './UserSettingsContainer';
+import NotificationsContainer from './NotificationsContainer';
+import BankAccountsContainer from './BankAccountsContainer';
+import TransactionCreateContainer from './TransactionCreateContainer';
+import TransactionDetailContainer from './TransactionDetailContainer';
+import { DataContext, DataSchema, DataEvents } from '../machines/dataMachine';
+import { AuthMachineContext, AuthMachineEvents } from '../machines/authMachine';
+import { SnackbarContext, SnackbarSchema, SnackbarEvents } from '../machines/snackbarMachine';
+import UserOnboardingContainer from './UserOnboardingContainer';
 
-import DashBoard from "./DashBoard";
+import DashBoard from './DashBoard';
+
 export interface Props {
   isLoggedIn: boolean;
   authService: Interpreter<AuthMachineContext, any, AuthMachineEvents, any>;
@@ -34,7 +35,7 @@ const PrivateRoutesContainer: React.FC<Props> = ({
   const [, sendNotifications] = useService(notificationsService);
 
   useEffect(() => {
-    sendNotifications({ type: "FETCH" });
+    sendNotifications({ type: 'FETCH' });
   }, [sendNotifications]);
 
   return (
@@ -44,7 +45,7 @@ const PrivateRoutesContainer: React.FC<Props> = ({
         bankAccountsService={bankAccountsService}
       />
       <Switch>
-        <PrivateRoute isLoggedIn={isLoggedIn} exact path={"/(public|contacts|personal)?"}>
+        <PrivateRoute isLoggedIn={isLoggedIn} exact path="/(public|contacts|personal)?">
           <TransactionsContainer />
         </PrivateRoute>
         <PrivateRoute isLoggedIn={isLoggedIn} exact path="/user/settings">

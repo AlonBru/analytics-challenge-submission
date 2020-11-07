@@ -1,16 +1,16 @@
-import React, { useRef } from "react";
-import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useRef } from 'react';
+import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
 }));
@@ -35,10 +35,10 @@ const UserListSearchForm: React.FC<UserListSearchFormProps> = ({ userListSearch 
           placeholder="Search..."
           id="user-list-search-input"
           inputRef={inputEl}
-          inputProps={{ "data-test": "user-list-search-input" }}
+          inputProps={{ 'data-test': 'user-list-search-input' }}
           onFocus={() => {
-            if (null !== inputEl.current) {
-              inputEl.current.value = "";
+            if (inputEl.current !== null) {
+              inputEl.current.value = '';
               inputEl.current.focus();
             }
           }}

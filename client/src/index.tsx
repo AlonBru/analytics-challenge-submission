@@ -1,15 +1,15 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { Router } from "react-router-dom";
-import { history } from "./utils/historyUtils";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Router } from 'react-router-dom';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { history } from './utils/historyUtils';
 
-import App from "./containers/App";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import App from './containers/App';
 
 const theme = createMuiTheme({
   palette: {
     secondary: {
-      main: "#fff",
+      main: '#fff',
     },
   },
 });
@@ -20,5 +20,5 @@ ReactDOM.render(
       <App />
     </ThemeProvider>
   </Router>,
-  document.getElementById("root")
+  document.getElementById('root'),
 );

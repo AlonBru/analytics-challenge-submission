@@ -1,16 +1,16 @@
-import React from "react";
-import { makeStyles, Paper, Grid } from "@material-ui/core";
-import { TransactionDateRangePayload, TransactionAmountRangePayload } from "../models";
-import TransactionListDateRangeFilter from "./TransactionDateRangeFilter";
-import TransactionListAmountRangeFilter from "./TransactionListAmountRangeFilter";
-import { debounce } from "lodash/fp";
+import React from 'react';
+import { makeStyles, Paper, Grid } from '@material-ui/core';
+import { debounce } from 'lodash/fp';
+import { TransactionDateRangePayload, TransactionAmountRangePayload } from '../models';
+import TransactionListDateRangeFilter from './TransactionDateRangeFilter';
+import TransactionListAmountRangeFilter from './TransactionListAmountRangeFilter';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
-    display: "flex",
-    overflow: "auto",
-    flexDirection: "column",
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
   },
 }));
 
@@ -27,14 +27,11 @@ const TransactionListFilters: React.FC<TransactionListFiltersProps> = ({
 }) => {
   const classes = useStyles();
 
-  const filterDateRange = (payload: TransactionDateRangePayload) =>
-    sendFilterEvent("DATE_FILTER", payload);
-  const resetDateRange = () => sendFilterEvent("DATE_RESET");
+  const filterDateRange = (payload: TransactionDateRangePayload) => sendFilterEvent('DATE_FILTER', payload);
+  const resetDateRange = () => sendFilterEvent('DATE_RESET');
 
-  const filterAmountRange = debounce(200, (payload: TransactionAmountRangePayload) =>
-    sendFilterEvent("AMOUNT_FILTER", payload)
-  );
-  const resetAmountRange = () => sendFilterEvent("AMOUNT_RESET");
+  const filterAmountRange = debounce(200, (payload: TransactionAmountRangePayload) => sendFilterEvent('AMOUNT_FILTER', payload));
+  const resetAmountRange = () => sendFilterEvent('AMOUNT_RESET');
 
   return (
     <Paper className={classes.paper} elevation={0}>

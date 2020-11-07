@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   ListItem,
   Typography,
@@ -10,14 +10,14 @@ import {
   withStyles,
   Theme,
   createStyles,
-} from "@material-ui/core";
-import LikeIcon from "@material-ui/icons/ThumbUpAltOutlined";
-import CommentIcon from "@material-ui/icons/CommentRounded";
-import { makeStyles } from "@material-ui/core/styles";
-import { TransactionResponseItem } from "../models";
-import { useHistory } from "react-router";
-import TransactionTitle from "./TransactionTitle";
-import TransactionAmount from "./TransactionAmount";
+} from '@material-ui/core';
+import LikeIcon from '@material-ui/icons/ThumbUpAltOutlined';
+import CommentIcon from '@material-ui/icons/CommentRounded';
+import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router';
+import { TransactionResponseItem } from '../models';
+import TransactionTitle from './TransactionTitle';
+import TransactionAmount from './TransactionAmount';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,14 +25,14 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(0),
-    margin: "auto",
-    width: "100%",
+    margin: 'auto',
+    width: '100%',
   },
   avatar: {
     width: theme.spacing(2),
   },
   socialStats: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('sm')]: {
       marginTop: theme.spacing(2),
     },
   },
@@ -51,15 +51,13 @@ type TransactionProps = {
   transaction: TransactionResponseItem;
 };
 
-const SmallAvatar = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: 22,
-      height: 22,
-      border: `2px solid ${theme.palette.background.paper}`,
-    },
-  })
-)(Avatar);
+const SmallAvatar = withStyles((theme: Theme) => createStyles({
+  root: {
+    width: 22,
+    height: 22,
+    border: `2px solid ${theme.palette.background.paper}`,
+  },
+}))(Avatar);
 
 const TransactionItem: React.FC<TransactionProps> = ({ transaction }) => {
   const classes = useStyles();
@@ -82,8 +80,8 @@ const TransactionItem: React.FC<TransactionProps> = ({ transaction }) => {
               <Badge
                 overlap="circle"
                 anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right",
+                  vertical: 'bottom',
+                  horizontal: 'right',
                 }}
                 badgeContent={<SmallAvatar src={transaction.receiverAvatar} />}
               >

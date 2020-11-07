@@ -1,12 +1,12 @@
-import React from "react";
-import { get } from "lodash/fp";
-import { useTheme, makeStyles } from "@material-ui/core/styles";
-import { InfiniteLoader, List, Index } from "react-virtualized";
-import "react-virtualized/styles.css"; // only needs to be imported once
+import React from 'react';
+import { get } from 'lodash/fp';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
+import { InfiniteLoader, List, Index } from 'react-virtualized';
+import 'react-virtualized/styles.css'; // only needs to be imported once
 
-import TransactionItem from "./TransactionItem";
-import { TransactionResponseItem, TransactionPagination } from "../models";
-import { useMediaQuery, Divider } from "@material-ui/core";
+import { useMediaQuery, Divider } from '@material-ui/core';
+import TransactionItem from './TransactionItem';
+import { TransactionResponseItem, TransactionPagination } from '../models';
 
 export interface TransactionListProps {
   transactions: TransactionResponseItem[];
@@ -16,11 +16,11 @@ export interface TransactionListProps {
 
 const useStyles = makeStyles((theme) => ({
   transactionList: {
-    width: "100%",
-    minHeight: "80vh",
-    display: "flex",
-    overflow: "auto",
-    flexDirection: "column",
+    width: '100%',
+    minHeight: '80vh',
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
   },
 }));
 
@@ -31,19 +31,14 @@ const TransactionInfiniteList: React.FC<TransactionListProps> = ({
 }) => {
   const classes = useStyles();
   const theme = useTheme();
-  const isXsBreakpoint = useMediaQuery(theme.breakpoints.down("xs"));
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isXsBreakpoint = useMediaQuery(theme.breakpoints.down('xs'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const itemCount = pagination.hasNextPages ? transactions.length + 1 : transactions.length;
 
-  const loadMoreItems = () => {
-    return new Promise((resolve) => {
-      return resolve(pagination.hasNextPages && loadNextPage(pagination.page + 1));
-    });
-  };
+  const loadMoreItems = () => new Promise((resolve) => resolve(pagination.hasNextPages && loadNextPage(pagination.page + 1)));
 
-  const isRowLoaded = (params: Index) =>
-    !pagination.hasNextPages || params.index < transactions.length;
+  const isRowLoaded = (params: Index) => !pagination.hasNextPages || params.index < transactions.length;
 
   // @ts-ignore
   function rowRenderer({ key, index, style }) {
@@ -53,7 +48,7 @@ const TransactionInfiniteList: React.FC<TransactionListProps> = ({
       return (
         <div key={key} style={style}>
           <TransactionItem transaction={transaction} />
-          <Divider variant={isMobile ? "fullWidth" : "inset"} />
+          <Divider variant={isMobile ? 'fullWidth' : 'inset'} />
         </div>
       );
     }

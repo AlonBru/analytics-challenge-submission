@@ -1,7 +1,6 @@
+import styled from 'styled-components';
 
-import styled from 'styled-components'
-
-export default  styled.h1`
+export default styled.h1`
     margin:0;
     position:relative;
-  `
+  `;
