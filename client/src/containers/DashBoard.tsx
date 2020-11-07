@@ -3,7 +3,12 @@ import styled from 'styled-components'
 import ErrorBoundary from './ErrorBoundary'
 import {Tile,TileContainer} from './DashComponents'
 import axios from 'axios'
-import{ Map} from '../components/analytics'
+import{ 
+  Map,
+  Retention,
+  ByDay,
+  ByHour
+} from '../components/analytics'
 const DashBoard: React.FC = () => {
 
   return (
@@ -16,12 +21,17 @@ const DashBoard: React.FC = () => {
         </ErrorBoundary>
         <ErrorBoundary>
           <Tile>
-
+            <ByHour/>
           </Tile>
         </ErrorBoundary>
         <ErrorBoundary>
           <Tile>
-
+            <ByDay/>
+          </Tile>
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <Tile>
+            <Retention/>
           </Tile>
         </ErrorBoundary>
         <ErrorBoundary>

@@ -39,10 +39,3 @@ export type Location = {
   lat: number;
   lng: number;
 };
-export interface RetentionCohort {
-  sorting: string;
-  type: string;
-  browser: string;
-  search: string;
-  offset: number;
-}

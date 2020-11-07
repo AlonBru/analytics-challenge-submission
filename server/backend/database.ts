@@ -111,20 +111,34 @@ export const seedDatabase = () => {
   return;
 };
 
+const backToMidnight = (time:number):number=>{
+  return new Date(new Date(time).toDateString()).getTime()
+}
+const nextDay = (time:number):number=>{
+  return new Date(new Date(time+OneDay+2*OneHour).toDateString()).getTime()
+}
+
+const dateString = (time:number):string=>{
+  const splitDate = new Date(time).toDateString().slice(4).split(' ')
+  const [month,day,year] = splitDate
+  return [day,month,year].join('/')
+}
+
 export const getRetentionCohort = (dayZeroNumber:number):weeklyRetentionObject[] => {
   
   const dayZero:number = new Date(new Date(dayZeroNumber).toUTCString()).getTime()
-  
+  // const dayZero:number = backToMidnight(dayZeroNumber)
   const signups:Event[] = db
   .get('events')
   .filter(
-    (event: Event) => event.name === "signup"
+    (event: Event) => event.name === "signup" && event.date>dayZero
   )
   .orderBy('date')
   .value()
   const logins : Event[] = db
   .get('events')
   .filter({ ['name']: 'login' })
+  .filter(({date})=> date>dayZero)
   .orderBy('date')
   .value()
 
@@ -133,6 +147,7 @@ export const getRetentionCohort = (dayZeroNumber:number):weeklyRetentionObject[]
   
   for(
       let d = new Date(new Date(dayZero-2*OneHour).toDateString()).getTime() ;
+      // let d = backToMidnight(Date.now()) ;
       d < new Date(new Date().toDateString()).getTime()+OneWeek ;
       d+=OneWeek+2*OneHour
     ){ 
@@ -167,7 +182,7 @@ export const getRetentionCohort = (dayZeroNumber:number):weeklyRetentionObject[]
         }
       })
       if(weekNumber === 0 && i === 1 || weekNumber === 4 && i === 5){
-      console.log('week'+weekNumber,returnedUsers)
+      // console.log('week'+weekNumber,returnedUsers)
       }
       weeklyRetention.push(returnedUsers.length)
     } 
@@ -236,19 +251,6 @@ export const createEvent = (eventData:any) => {
   
   db.get(EVENT_TABLE).push(eventData).write();
   
-}
-
-const backToMidnight = (time:number):number=>{
-  return new Date(new Date(time).toDateString()).getTime()
-}
-const nextDay = (time:number):number=>{
-  return new Date(new Date(time+OneDay+2*OneHour).toDateString()).getTime()
-}
-
-const dateString = (time:number):string=>{
-  const splitDate = new Date(time).toDateString().slice(4).split(' ')
-  const [month,day,year] = splitDate
-  return [day,month,year].join(' / ')
 }
 
 export const getSessionsByDay = (offset=0) : {date:string,count:number}[] => {
