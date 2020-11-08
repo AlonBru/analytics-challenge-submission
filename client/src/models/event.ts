@@ -45,4 +45,5 @@ export type MapData = {
   date:string,
   user:string,
   avatar:string
+  type:string
 }

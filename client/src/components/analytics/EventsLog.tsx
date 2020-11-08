@@ -2,14 +2,19 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Event } from '../../models/event';
-
+import ChartTitle from './ChartTitle';
 const SearchBar = styled.input`
-  width:100px;
+  width:120px;
   `;
 const SideBar = styled.div`
   display:flex;
   flex-direction:column;
   justify-items:space-between;
+  .log{
+    border:1px steelblue solid;
+    height:210px;
+    overflow-y:scroll;
+  }
 
 `;
 const SideBySide = styled.div`
@@ -18,6 +23,9 @@ const SideBySide = styled.div`
   *{margin-left:2px;}
 `;
 const EventLine = styled.div`
+b{
+  color:indigo;
+}
 display:flex;
 flex-direction:row;
 *{margin-left:2px;}
@@ -59,12 +67,10 @@ const FiltersBar = ({ selectFilters }:{selectFilters:(value:any)=>void}) => {
     return (
       <SideBar>
         <h2>Filters</h2>
-        <label>
-Search events
           <SearchBar
             onChange={({ target }) => { setSearch(target.value); }}
+            placeholder='search in events '
           />
-        </label>
 
         {Object.keys(filters).map((value) => (
           <label>
@@ -145,13 +151,16 @@ const EventsLog = () => {
 
   // return <FiltersBar selectFilters={setFilters} />
   return (
+    <div>
+      <ChartTitle>Events Log</ChartTitle>
     <SideBySide>
       <FiltersBar selectFilters={setFilter} />
       {events.length
         ? (
           <SideBar>
-            {events.slice(page, page + 10).map((event) => (
-              <EventLine>
+            <div className='log'>
+              {events.slice(page, page + 10).map((event) => (
+                <EventLine>
                 <span>
                   <b>type:</b>
                   {' '}
@@ -174,6 +183,7 @@ const EventsLog = () => {
                 </span>
               </EventLine>
             ))}
+            </div>
             <SideBySide>
               <button onClick={() => { setPage(page ? page - 1 : 0); }}>
                 {'<'}
@@ -197,9 +207,11 @@ const EventsLog = () => {
               </button>
             </SideBySide>
           </SideBar>
+        
         )
         : <h2>Loading</h2>}
     </SideBySide>
+    </div>
   );
 };
 export default EventsLog;

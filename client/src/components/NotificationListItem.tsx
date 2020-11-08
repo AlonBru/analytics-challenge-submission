@@ -54,7 +54,7 @@ const NotificationListItem: React.FC<NotificationListItemProps> = ({
   const classes = useStyles();
   const theme = useTheme();
   let listItemText;
-  let listItemIcon;
+  let listItemIcon:any;
   const xsBreakpoint = useMediaQuery(theme.breakpoints.only('xs'));
 
   if (isCommentNotification(notification)) {

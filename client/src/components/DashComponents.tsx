@@ -25,7 +25,7 @@ interface TileProps {
 }
 
 export const Tile = styled.div<TileProps>`
-  min-width:${({ wide }) => (wide ? '98%' : '400px')};
+  min-width:${({ wide }) => (wide ? 'fit-content' : '400px')};
   overflow:hidden;
   height:300px;
   margin:1vw ;

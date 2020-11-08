@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { Event, MapData } from '../../models/event';
 
 const containerStyle = {
-  width: '100%',
+  width: '500px',
   height: '100%',
 };
 const Avatar = styled.img`
@@ -21,6 +21,10 @@ display:flex;
 flex-direction:column;
 align-items:center;
 background-color:aliceblue;
+padding:2px;
+img{
+  background-color:indigo;
+}
 *{
   margin:2px;
 }
@@ -98,7 +102,7 @@ function Map() {
                 // @ts-ignore
                  events?.map((event) => {
                    const {
-                     location, user, date, avatar,
+                     location, user, date, avatar, type
                    } = event;
                    return (
                      <Marker
@@ -119,6 +123,11 @@ function Map() {
                         user:
                              {' '}
                              {user}
+                           </span>
+                           <span>
+                        event:
+                             {' '}
+                             {type}
                            </span>
                            {' '}
                            <br />

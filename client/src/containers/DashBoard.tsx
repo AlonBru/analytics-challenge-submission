@@ -56,7 +56,9 @@ const DashBoard: React.FC = () => (
       </Tile>
     </ErrorBoundary>
     <ErrorBoundary>
-      <Tile />
+      <Tile>
+        <PieChart by="name" />
+      </Tile>
     </ErrorBoundary>
   </TileContainer>
 );
