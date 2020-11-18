@@ -47,7 +47,7 @@ const FiltersBar = ({ selectFilters }:{selectFilters:(value:any)=>void}) => {
   const [browser, setBrowser] = useState('');
   const [search, setSearch] = useState('');
   useEffect(() => {
-    axios.get('http://localhost:3001/events/filters')
+    axios.get('/events/filters')
       .then(({ data }) => { setFilters(data); });
   }, []);
   const clearAll = () => {
@@ -73,7 +73,7 @@ const FiltersBar = ({ selectFilters }:{selectFilters:(value:any)=>void}) => {
           />
 
         {Object.keys(filters).map((value) => (
-          <label>
+          <label key={value}>
             {' '}
             {value}
             <select
@@ -86,7 +86,7 @@ const FiltersBar = ({ selectFilters }:{selectFilters:(value:any)=>void}) => {
             >
               <option value="">None </option>
               {filters[value].map((name:string) => (
-                <option value={name}>{name}</option>
+                <option key={name} value={name}>{name}</option>
               ))}
             </select>
           </label>
@@ -118,7 +118,7 @@ const EventsLog = () => {
   const [sort, setSort] = useState<'-'|'+'>('+');
 
   const { type, browser, search } = filter;
-  const url = `http://localhost:3001/events/all-filtered?sort=${sort}&type=${type}&browser=${browser}&search=${search}&page=0`;
+  const url = `/events/all-filtered?sort=${sort}&type=${type}&browser=${browser}&search=${search}&page=0`;
   const refresh = () => {
     axios.get(url)
       .then(({ data }:{data:Event[]}) => {
@@ -133,7 +133,7 @@ const EventsLog = () => {
 
   const nextPage = () => {
     if (page + 1 === events.length / 10) {
-      const url = `http://localhost:3001/events/all-filtered?sort=${sort}&type=${type}&browser=${browser}&search=${search}&page=${page + 1}`;
+      const url = `/events/all-filtered?sort=${sort}&type=${type}&browser=${browser}&search=${search}&page=${page + 1}`;
       axios.get(url)
         .then(({ data }) => {
           const newData = events.concat(data);
@@ -147,6 +147,7 @@ const EventsLog = () => {
     const sortedEvents = events.sort(({ date: date1 }, { date: date2 }) => (sort === '-'
       ? date1 - date2
       : date2 - date1));
+    setEvents(sortedEvents)
   };
 
   // return <FiltersBar selectFilters={setFilters} />
@@ -160,7 +161,7 @@ const EventsLog = () => {
           <SideBar>
             <div className='log'>
               {events.slice(page, page + 10).map((event) => (
-                <EventLine>
+                <EventLine key={event._id}>
                 <span>
                   <b>type:</b>
                   {' '}

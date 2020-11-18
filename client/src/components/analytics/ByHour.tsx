@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styled from 'styled-components';
 import {
   LineChart,
-  CartesianGrid,
   XAxis,
   YAxis,
   Tooltip,
@@ -19,7 +17,7 @@ const ByDays = () => {
   const [data, setData] = useState<Event[]>([]);
   const [offset, setOffset] = useState<number>(0);
   useEffect(() => {
-    axios.get(`http://localhost:3001/events/by-hours/${offset}`)
+    axios.get(`/events/by-hours/${offset}`)
       .then(({ data }) => setData(data))
       .catch((e) => console.error(e));
   }, [offset]);

@@ -4,8 +4,8 @@ import {
 } from '@react-google-maps/api';
 import axios from 'axios';
 import styled from 'styled-components';
-import { Event, MapData } from '../../models/event';
-
+import { MapData } from '../../models/event';
+import mapKey from './mapKey'
 const containerStyle = {
   width: '500px',
   height: '100%',
@@ -41,7 +41,7 @@ function Map() {
   const [infos, setInfos] = useState<(google.maps.InfoWindow|undefined)[]>([]);
   const [events, setEvents] = useState<MapData[]|undefined>();
   useEffect(() => {
-    axios.get('http://localhost:3001/events/geolocation')
+    axios.get('/events/geolocation')
       .then(({ data }) => setEvents(data));
   }, []);
 
@@ -65,7 +65,7 @@ function Map() {
   };
 
   const markerClick = (e:google.maps.MouseEvent) => {
-    const marker:google.maps.Marker|undefined = markers.find((marker) => marker?.getPosition() == e.latLng);
+    const marker:google.maps.Marker|undefined = markers.find((marker) => marker?.getPosition() === e.latLng);
     const i = markers.indexOf(marker);
     infos[i]?.open(map, marker);
   };
@@ -79,7 +79,7 @@ function Map() {
       ? (
         <>
           <LoadScript
-            googleMapsApiKey="AIzaSyD3uRdDcPpdu9aJ5HzF27fHowG86nAQ3zo"
+            googleMapsApiKey={mapKey}
           >
             <GoogleMap
               mapContainerStyle={containerStyle}
@@ -111,7 +111,7 @@ function Map() {
                        // @ts-ignore
                        position={location}
                        clickable
-                       key={String(location?.lat) + String(location?.lng)}
+                       key={String(location?.lat) + String(location?.lng)+user}
                        clusterer={clusterer}
                      >
                        <InfoWindow

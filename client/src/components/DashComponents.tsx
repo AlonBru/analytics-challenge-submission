@@ -1,4 +1,3 @@
-import React, {} from 'react';
 import { Interpreter } from 'xstate';
 import styled from 'styled-components';
 import { AuthMachineContext, AuthMachineEvents } from '../machines/authMachine';

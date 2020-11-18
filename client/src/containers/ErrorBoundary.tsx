@@ -1,5 +1,4 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import styled from 'styled-components';
 
 interface Props {
   children: ReactNode;

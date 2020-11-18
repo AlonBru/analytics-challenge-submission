@@ -1,7 +1,7 @@
 import React, { useEffect, useState, FC } from 'react';
 import axios from 'axios';
 // import "./RetentionCohort.css";
-import styled, { StyledComponent } from 'styled-components';
+import styled from 'styled-components';
 import { weeklyRetentionObject } from '../../models/event';
 import ChartTitle from './ChartTitle';
 
@@ -35,20 +35,18 @@ const weekDataBlock = (week: weeklyRetentionObject) => {
 const RetentionCohort = () => {
   const [weeks, setWeeks] = useState<weeklyRetentionObject[]>([]);
   useEffect(() => {
-    axios.get('http://localhost:3001/events/retention?dayZero=1601524800000')
+    axios.get('/events/retention?dayZero=1601524800000')
       .then(({ data }:{data:weeklyRetentionObject[]}) => {
-        console.log(data);
         setWeeks((data));
       });
   }, []);
 
-  const totalUsers = weeks.reduce((total, current) => total + current.newUsers, 0);
+  // const totalUsers = weeks.reduce((total, current) => total + current.newUsers, 0);
 
   function CalculateAllUsersRetention(registrationWeek: number) {
     const retentionByWeek: number[] = weeks.map(({ weeklyRetention }) => weeklyRetention[registrationWeek]);
     const trimmedArray = retentionByWeek // remove undefined values
       .filter((weeklyRetention) => typeof weeklyRetention === 'number');
-    console.log(trimmedArray);
     return Math.round(
       trimmedArray.reduce((total, cur) => total + cur, 0) / trimmedArray.length,
     );

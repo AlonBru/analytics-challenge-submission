@@ -14,7 +14,7 @@ import ChartTitle from './ChartTitle';
 export default ({ by }:{by:string}) => {
   const [data, setData] = useState<Event[]>([]);
   useEffect(() => {
-    axios.get('http://localhost:3001/events/countBy/url')
+    axios.get('/events/countBy/url')
       .then(({ data }) => setData(data.map((url:{name:string, count:number}) => {
         const lastIndex = url.name.lastIndexOf('/');
         url.name = url.name.slice(lastIndex);
@@ -29,7 +29,6 @@ export default ({ by }:{by:string}) => {
       <PieChart width={500} height={250}>
         <Pie
           onMouseEnter={(e) => {
-            console.log(e);
             e.originalColour = e.fill;
             e.stroke = e.fill = 'turquoise';
           }}

@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import axios from 'axios';
+import React from 'react';
 import ErrorBoundary from './ErrorBoundary';
 import { Tile, TileContainer } from '../components/DashComponents';
 import {
@@ -22,13 +20,13 @@ const DashBoard: React.FC = () => (
     </ErrorBoundary>
     <ErrorBoundary>
       <Tile>
+        <PieChart by="os" />
+      </Tile>
+    <ErrorBoundary>
+      <Tile>
         <EventsLog />
       </Tile>
     </ErrorBoundary>
-    <ErrorBoundary>
-      <Tile>
-        <PieChart by="os" />
-      </Tile>
     </ErrorBoundary>
     <ErrorBoundary>
       <Tile>

@@ -5,18 +5,15 @@ import {
   Pie,
   Tooltip,
   Legend,
-  LabelList,
   Cell,
 } from 'recharts';
-import { setDate } from 'date-fns';
 import ChartTitle from './ChartTitle';
-import { Event } from '../../models/event';
 
 export default ({ by }:{by:string}) => {
   type Count = {name:string, count:number}
   const [data, setData] = useState<Count[]>([]);
   useEffect(() => {
-    axios.get(`http://localhost:3001/events/countBy/${by}`)
+    axios.get(`/events/countBy/${by}`)
       .then(({ data }) => {
         if (by === 'url') {
           setData(data.map((url:Count) => {
@@ -29,7 +26,7 @@ export default ({ by }:{by:string}) => {
         }
       })
       .catch((e) => console.error(e));
-  }, []);
+  }, [by]);
 
   return (
     <div>
@@ -37,7 +34,6 @@ export default ({ by }:{by:string}) => {
       <PieChart width={400} height={250}>
         <Pie
           onMouseEnter={(e) => {
-            console.log(e);
             e.originalColour = e.fill;
             e.stroke = e.fill = 'turquoise';
           }}
