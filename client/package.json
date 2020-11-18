@@ -125,7 +125,7 @@
     "db:seed:empty": "ncp ./data/empty-seed.json ./data/database.json",
     "postdb:seed": "npm run db:seed:dev",
     "prestart:empty": "yarn db:seed:empty",
-    "prebuild": "yarn types",
+    "prebuild": "npm run types",
     "react-start": "react-scripts start",
     "nodemon": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'tsnode' src/index.ts",
     "build": "react-scripts build",

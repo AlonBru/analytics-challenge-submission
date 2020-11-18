@@ -51,6 +51,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(paginate.middleware(+process.env.PAGINATION_PAGE_SIZE!));
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 
 app.use(auth);
 app.use('/users', userRoutes);
